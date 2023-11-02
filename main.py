@@ -9,7 +9,7 @@ def calculate_runway_and_format(cash, monthly_expenses, monthly_income,
                                 cash_injection):
   net_expenses = monthly_expenses - monthly_income
   if net_expenses <= 0:  # This means the cash will never run out because income >= expenses
-    return [], "infinite"
+    return [], "infinite", ""
 
   months_until_run_out = (cash + cash_injection) // net_expenses
   cash_remaining_each_month = [(cash + cash_injection) - net_expenses * month
@@ -48,12 +48,12 @@ cash_injection = st.number_input(
     format='%d')
 
 # Calculate runway
-cash_remaining, runway_formatted, end_date_str = calculate_runway_and_format(
-    cash, monthly_expenses, monthly_income, cash_injection)
-
-if runway_formatted == "infinite":
+if monthly_income >= monthly_expenses:
   st.subheader("🎉 You got infinite ∞ runway.")
+  cash_remaining, runway_formatted, end_date_str = [], "infinite", ""
 else:
+  cash_remaining, runway_formatted, end_date_str = calculate_runway_and_format(
+      cash, monthly_expenses, monthly_income, cash_injection)
   if cash_remaining:
     # Update subheader with runway formatted in the most appropriate unit
     st.subheader(
