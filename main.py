@@ -69,3 +69,4 @@ else:
     st.bar_chart(df.set_index('Month'))
   else:
     st.write("You don't have a runway because your cash on hand is zero.")
+  st.bar_chart(df.set_index('Day'))
